@@ -16,7 +16,7 @@ let temperatureSymbol = "ºF";
 const handleWeatherSearchSubmit = (event) => {
     event.preventDefault();
 
-    const userCitySearch = document.getElementById("#search-input").value.trim();
+    const userCitySearch = document.getElementById("search-input").value.trim();
 
     console.log(userCitySearch);
 
