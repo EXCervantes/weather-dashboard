@@ -25,7 +25,54 @@ const handleWeatherSearchSubmit = (event) => {
         return;
     }
 
-    localStorage.setItem('tasks', JSON.stringify(searchInput));
+    localStorage.setItem("user-city", JSON.stringify(userCitySearch));
+    getForecast(userCitySearch)
+}
+
+const getForecast = (city) => {
+    cityToLatLong(city).then((latLon) => {
+        console.log(latLon)
+        return fetchWeather(latLon)
+    }).then((weather) => {
+        console.log(weather)
+    })
+
+
+    // call fetchWeather(lat, long)
+    // Display Forecast returned by fetchWeather()
+}
+
+const cityToLatLong = (city) => {
+    const apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${weatherAPIKey}`
+
+    return fetch(apiURL)
+        .then(function (response) {
+            if (!response.ok) {
+                alert(response.status + " " + response.statusText);
+                return;
+            }
+
+            return response.json();
+        }).then(function (searchResult) {
+
+            console.log(searchResult);
+
+            if (!searchResult.length) {
+                console.log('No results found!');
+                resultContainer.innerHTML = String.raw`<h3>No results found, search again!</h3>`;
+            } else {
+                for (const result of searchResult) {
+                    return {
+                        lat: result.lat,
+                        lon: result.lon,
+                    };
+                }
+            }
+
+        }).catch(function (error) {
+            console.error(error);
+            alert(error);
+        })
 }
 
 const getSearchParams = () => {
@@ -45,13 +92,13 @@ const getLocalDate = () => {
 }
 
 // Fetch
-const fetchWeather = (query) => {
+const fetchWeather = (latLon) => {
 
-    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${weatherAPIKey}&units=${units}`;
+    const apiURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latLon.lat}&lon=${latLon.lon}&appid=${weatherAPIKey}&units=${units}`;
 
     console.log(apiURL);
 
-    fetch(apiURL)
+    return fetch(apiURL)
         .then(function (response) {
             if (!response.ok) {
                 alert(response.status + " " + response.statusText);
@@ -63,17 +110,15 @@ const fetchWeather = (query) => {
 
             console.log(searchResult);
 
-            resultText.textContent = query;
-
-            if (!searchResult.results.length) {
+            if (!searchResult.list.length) {
                 console.log('No results found!');
                 resultContainer.innerHTML = String.raw`<h3>No results found, search again!</h3>`;
             } else {
-                resultText.textContent = "";
-                for (const result of searchResult.results) {
-                    console.warn("Print Result", result)
+                // for (const result of searchResult.list) {
+                //     console.warn("Print Result", result)
 
-                }
+                // }
+                return searchResult.list;
             }
 
         }).catch(function (error) {
@@ -94,6 +139,8 @@ const createWeatherCard = (query) => {
 
     return weatherCard;
 }
+
+// 
 
 // let taskList = JSON.parse(localStorage.getItem('tasks')) || [];
 
