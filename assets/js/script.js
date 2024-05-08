@@ -43,7 +43,7 @@ const getForecast = (city) => {
 }
 
 const cityToLatLong = (city) => {
-    const apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${weatherAPIKey}`
+    const apiURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${weatherAPIKey}`
 
     return fetch(apiURL)
         .then(function (response) {
