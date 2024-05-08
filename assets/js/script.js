@@ -1,4 +1,4 @@
-const weatherAPIKey = "882499a76b7f0c68ee718535237dda81";
+const weatherAPIKey = "ce1608d3a3dfc31af73417422c4430d7";
 const weatherNow = document.getElementById("weather-now");
 const weatherContainer = document.getElementById("weather-cards");
 const cityWeatherCards = document.getElementById("city-name-card");
