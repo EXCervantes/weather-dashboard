@@ -12,40 +12,119 @@
 </head>
 
 <body>
-    <header>
-        <h1>Weather Dashboard</h1>
-    </header>
     <div class="container">
-        <form id="search-form">
-            <div class="row">
-                <div class="form-group">
-                    <label for="search-input">Search for a City:</label>
-                    <input type="text" class="form-control-lg" id="search-input" name="search"
-                        placeholder="City Name Here">
+        <div id="header" class="row">header</div>
+        <div id="content" class="row">
+            <div id="search" class="col">
+                <h3>search</h3>
+                <!-- form stuff -->
+                <hr>
+                <ul id="history">
+                    <li>atlanta</li>
+                    <li>toronto</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div id="weather" class="col">
+                <div id="today" class="row">
+                    <div class="card">today</div>
                 </div>
-                <div class="text-left pt-4 pb-3">
-                    <input type="submit" class="btn btn-success" id="search-btn" value="Search">
+                <div class="row">
+                    <h3>forecast</h3>
+                </div>
+                <div id="forecast" class="row">
+                    <div class="col">
+                        <div class="card">day</div>
+                    </div>
+                    <div class="col">
+                        <div class="card">day</div>
+                    </div>
+                    <div class="col">
+                        <div class="card">day</div>
+                    </div>
+                    <div class="col">
+                        <div class="card">day</div>
+                    </div>
+                    <div class="col">
+                        <div class="card">day</div>
+                    </div>
                 </div>
             </div>
-        </form>
-        <!-- Button to display search city history -->
-        <div id="search-history">
-            <button id="city-history"></button>
         </div>
-        <div id="weather-now">
-            <h3></h3>
+    </div>
+    <hr>
+    <br><br><br><br><br><br><br><br><br><br>
+    <div class="p-4">
+        <header>
+            <h1>Weather Dashboard</h1>
+        </header>
+    </div>
+    <div class="container d-flex justify-content-space-evenly">
+        <div id="search-form">
+            <div class="form-group">
+                <h2>Search for a City:</h2>
+                <label for="search-input"></label>
+                <input type="text" class="form-control-lg" id="search-input" name="search" placeholder="City Name Here">
+            </div>
+            <div class="text-left pt-4 pb-3" id="seach-button">
+                <input type="submit" class="btn btn-success" id="search-btn" value="Search">
+            </div>
         </div>
-        <div id="weather-cards">
-            <h2 id="city-name-card"></h2>
+    </div>
+    </div>
+    <!-- Button to display search city history -->
+    <div class="d-flex justify-content-space evenly" id="search-history">
+        <button id="city-history">Atlanta</button>
+    </div>
+    <div id="weather-now">
+        <div class="card">
+            <h3 id="current-city">Current City</h3>
+            <img src="https://openweathermap.org/img/wn/10n.png">
+            <p>Temp</p>
+            <p>Wind</p>
+            <p>Humidity</p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end" id="weather-cards">
+        <div class="card">
+            <h2 id="city-name-card">Wednesday</h2>
             <p id="description"></p>
             <p id="temp"></p>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-        <script src="./assets/js/script.js"></script>
+        <div class="card">
+            <h2 id="city-name-card">Wednesday</h2>
+            <p id="description"></p>
+            <p id="temp"></p>
+        </div>
+        <div class="card">
+            <h2 id="city-name-card">Wednesday</h2>
+            <p id="description"></p>
+            <p id="temp"></p>
+        </div>
+        <div class="card">
+            <h2 id="city-name-card">Wednesday</h2>
+            <p id="description"></p>
+            <p id="temp"></p>
+        </div>
+        <div class="card">
+            <h2 id="city-name-card">Wednesday</h2>
+            <p id="description"></p>
+            <p id="temp"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./assets/js/forecast.js"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
