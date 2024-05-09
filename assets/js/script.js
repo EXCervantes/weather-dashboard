@@ -3,13 +3,6 @@ const weatherNow = document.getElementById("weather-now");
 const weatherContainer = document.getElementById("weather-cards");
 const cityWeatherCards = document.getElementById("city-name-card");
 const searchForm = document.getElementById("search-form")
-
-
-// fetch response
-// await response
-// await response.json
-// api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={WeatherAPIKey}
-
 const units = "imperial";
 let temperatureSymbol = "ºF";
 
@@ -30,8 +23,12 @@ const handleWeatherSearchSubmit = (event) => {
         .then((weatherValues) => {
             console.log(weatherValues)
             // cards
-            const todayCard = createTodayCard(weatherValues.today)
+            const todayCard = createTodayCard(weatherValues.today, weatherValues.cityName)
             weatherNow.appendChild(todayCard)
+            for (day of weatherValues.forecast) {
+                const forecastCard = createFiveDayCard(day)
+                weatherContainer.appendChild(forecastCard)
+            }
             // save city data tolocalStorage
         })
 }
@@ -39,10 +36,14 @@ const handleWeatherSearchSubmit = (event) => {
 const getForecast = (city) => {
     return cityToLatLong(city)
         .then((latLon) => {
-            console.log(latLon)
-            return fetchWeather(latLon)
+            return fetchWeather(latLon).then((weatherData) => {
+                return {
+                    weatherData,
+                    cityName: latLon.cityName,
+                }
+            });
         })
-        .then((weatherData) => {
+        .then(({ weatherData, cityName }) => {
             console.log(weatherData)
             const forecast = [];
 
@@ -76,12 +77,9 @@ const getForecast = (city) => {
             return {
                 today,
                 forecast,
+                cityName,
             }
         });
-
-
-    // call fetchWeather(lat, long)
-    // Display Forecast returned by fetchWeather()
 }
 
 const cityToLatLong = (city) => {
@@ -107,6 +105,7 @@ const cityToLatLong = (city) => {
     //                 return {
     //                     lat: result.lat,
     //                     lon: result.lon,
+    //                     cityName: result.name,
     //                 };
     //             }
     //         }
@@ -117,27 +116,9 @@ const cityToLatLong = (city) => {
     //     })
     return Promise.resolve({
         lat: 37.6922361,
-        lon: -97.3375448
+        lon: -97.3375448,
+        cityName: "Wichita",
     });
-}
-
-/*const getWeatherValues = () => {
-    const date = response.list[0].dt
-    const temp = response.list[0].main.temp_max
-    const wind = response.list[0].wind
-    const humidity = response.list[0].main.humidity
-
-    console.log()
-
-    fetchWeather(latLon);
-} */
-
-// Convert to Current Time
-// Timestamp is Seconds
-const getLocalDate = (dt) => {
-    const date = new Date()
-    date.toLocaleDateString()
-    console.log(date);
 }
 
 // Fetch The Date Using The API
@@ -173,24 +154,54 @@ const fetchWeather = (latLon) => {
     return Promise.resolve(forecastCache);
 }
 // Create Today Card
-const createTodayCard = (todayWeather) => {
-    const element = document.createElement("div")
-    //img scr `https://openweathermap.org/img/wn/${todayWeather.icon}.png`
-    element.innerHTML = JSON.stringify(todayWeather);
-    return element
+const createTodayCard = (todayWeather, city) => {
+    const todayCard = document.createElement("div")
+    todayCard.setAttribute("class", "card");
+    const currentCity = document.createElement("h3");
+    currentCity.textContent = city
+    currentCity.setAttribute("id", "display-city");
+    const dailyCardIcon = document.createElement("img");
+    dailyCardIcon.src = `https://openweathermap.org/img/wn/${todayWeather.icon}@2x.png`
+    const dailyCardTemp = document.createElement("p");
+    dailyCardTemp.textContent = "Temp: " + todayWeather.temp + temperatureSymbol
+    const dailyCardWind = document.createElement("p");
+    dailyCardWind.textContent = "Wind: " + todayWeather.wind + " MPH"
+    const dailyCardHumid = document.createElement("p");
+    dailyCardHumid.textContent = "Humidity: " + todayWeather.humidity + "%"
+    todayCard.appendChild(currentCity)
+    todayCard.appendChild(dailyCardIcon)
+    todayCard.appendChild(dailyCardTemp)
+    todayCard.appendChild(dailyCardWind)
+    todayCard.appendChild(dailyCardHumid)
+    return todayCard
 };
 
 // Create Five Day Weather Cards
-const createFiveDayCard = () => {
-    const weatherCard = $('<div>').addClass('card weather-card my-3').attr('daily-weather');
-    const cardHeader = $('<div>').addClass('card-header h4').text(weather.name);
-    const cardBody = $('<div>').addClass('card-body');
-    const cardDescription = $('<p>').addClass('card-text').text(weather);
-    task
-    cardBody.append(cardDescription, cardDueDate);
-    taskCard.append(cardHeader, cardBody);
+const createFiveDayCard = (forecastWeather) => {
+    const forecastDayCardContainer = document.createElement("div");
+    forecastDayCardContainer.setAttribute("class", "col");
+    const forecastDayCard = document.createElement("div");
+    forecastDayCard.setAttribute("class", "card", "col");
+    forecastDayCardContainer.appendChild(forecastDayCard);
+    const h4El = document.createElement('h4');
+    h4El.setAttribute("id", "city-name-card")
+    h4El.textContent = forecastWeather.date.toLocaleDateString()
+    forecastDayCard.appendChild(h4El)
 
-    return weatherCard;
+    const forecastCardIcon = document.createElement("img");
+    forecastCardIcon.src = `https://openweathermap.org/img/wn/${forecastWeather.icon}.png`
+    forecastDayCard.appendChild(forecastCardIcon)
+    const forecastCardTemp = document.createElement("p");
+    forecastCardTemp.textContent = "Temp: " + forecastWeather.temp + temperatureSymbol
+    forecastDayCard.appendChild(forecastCardTemp)
+    const forecastCardWind = document.createElement("p");
+    forecastCardWind.textContent = "Wind: " + forecastWeather.wind + " MPH"
+    forecastDayCard.appendChild(forecastCardWind)
+    const forecastCardHumid = document.createElement("p");
+    forecastCardHumid.textContent = "Humidity: " + forecastWeather.humidity + "%"
+    forecastDayCard.appendChild(forecastCardHumid)
+
+    return forecastDayCardContainer;
 }
 
 searchForm.addEventListener('submit', handleWeatherSearchSubmit);

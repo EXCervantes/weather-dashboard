@@ -9,10 +9,9 @@ body {
 }
 
 header {
-    flex: auto;
     color: whitesmoke;
     background-image: linear-gradient(to right, rgb(43, 135, 255) , rgb(0, 4, 255));
-    justify-content: center;
+    border-radius: 3px 3px 3px 3px;
 }
 
 h1 {
@@ -20,20 +19,46 @@ h1 {
     font-weight: 700;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 5px;
 }
 
 h2 {
     font-size: 1.6rem;
     font-weight: 500;
+    padding: 15px;
 }
 
 h3 {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 15px;
+}
+
+h4 {
+    padding: 10px;
+}
+
+hr {
+    font-size: 1rem;
+}
+
+#search {
+    margin-left: 20px;
+}
+
+#weather-now h3 {
+    font-size: 1.5rem;
+    font-weight: 550;
+    padding: 15px;
+}
+
+#weather-now {
+    margin-right: 25px;
 }
 
 #search-form {
     border-bottom: 3px solid grey;
+    padding-bottom: 10px;
 }
 
 #search-btn {
@@ -46,10 +71,29 @@ h3 {
     border: 2px solid black;
 }
 
+#weather-cards .card img {
+    width: 50px;
+}
+
 #cached-city-btn {
     background-color: beige;
 }
 
 #weather-now .card {
     border: 2px solid grey;
+}
+
+#weather-now img {
+    max-width: 70px;
+    max-height: 700px;
+}
+
+p {
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+li {
+    list-style: none;
 }
